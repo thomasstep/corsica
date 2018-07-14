@@ -1,12 +1,12 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col} from 'react-bootstrap';
-import {AppBar, TextField, RaisedButton} from 'material-ui';
-import * as movieActions from './movie-browser.actions';
-import * as movieHelpers from './movie-browser.helpers';
-import MovieList from './movie-list/movie-list.component';
-import * as scrollHelpers from '../common/scroll.helpers';
-import MovieModal from './movie-modal/movie-modal.container';
+import React from "react";
+import { connect } from "react-redux";
+import { Grid, Row, Col } from "react-bootstrap";
+import { AppBar, TextField, RaisedButton } from "material-ui";
+import * as movieActions from "./movie-browser.actions";
+import * as movieHelpers from "./movie-browser.helpers";
+import MovieList from "./movie-list/movie-list.component";
+import * as scrollHelpers from "../common/scroll.helpers";
+import MovieModal from "./movie-modal/movie-modal.container";
 
 class MovieBrowser extends React.Component {
   constructor(props) {
@@ -28,28 +28,28 @@ class MovieBrowser extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   }
 
   handleScroll() {
-    const {topMovies} = this.props;
+    const { topMovies } = this.props;
     if (!topMovies.isLoading) {
       let percentageScrolled = scrollHelpers.getPercentageScrolledDown(window);
-      if (percentageScrolled > .8) {
+      if (percentageScrolled > 0.8) {
         const nextPage = this.state.currentPage + 1;
         this.props.getTopMovies(nextPage);
-        this.setState({currentPage: nextPage});
+        this.setState({ currentPage: nextPage });
       }
     }
   }
 
   render() {
-    const {topMovies} = this.props;
+    const { topMovies } = this.props;
     const movies = movieHelpers.getMoviesList(topMovies.response);
 
     return (
       <div>
-        <AppBar title='Movie Browser' />
+        <AppBar title="Movie Browser" />
         <Grid>
           <Row>
             <p>Search will go here</p>
@@ -66,7 +66,7 @@ class MovieBrowser extends React.Component {
 
 export default connect(
   // Map nodes in our state to a properties of our component
-  (state) => ({
+  state => ({
     topMovies: state.movieBrowser.topMovies
   }),
   // Map action creators to properties of our component
