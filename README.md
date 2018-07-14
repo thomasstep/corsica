@@ -1,4 +1,4 @@
-# Corsicana
+# Corsica
 
 Start the app with:
 
