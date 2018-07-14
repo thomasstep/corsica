@@ -1,5 +1,5 @@
 const TMDB_IMAGE_BASE_URL = (width = 300) =>
-  `https://image.tmdb.org/t/p/w${width}`;
+  `http://172.24.16.147:3001/image`;
 
 export const updateMoviePictureUrls = (movieResult, width = 300) => {
   if (movieResult) {

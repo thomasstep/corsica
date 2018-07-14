@@ -39,6 +39,7 @@ class MovieCardComponent extends React.Component {
         style={styles.card}
         onMouseOver={() => this.setState({ isMouseOver: true })}
         onMouseLeave={() => this.setState({ isMouseOver: false })}
+        // This onClick would have to trigger a download to your USB
         onClick={() => openMovieModal(movie.id)}
       >
         <CardMedia

@@ -15,6 +15,8 @@ const rootReducer = combineReducers({
 // including the previous state, the action details, and the next state
 const loggerMiddleware = createLogger();
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   // reducer
   rootReducer,
@@ -23,7 +25,7 @@ const store = createStore(
   // compose simply enables us to apply several store enhancers
   // Right now, we are only using applyMiddlware, so this is
   // just future-proofing our application
-  compose(
+  composeEnhancers(
     // Middlware can intercept dispatched actions before they reach the reducer
     // in order to modify it in some way
     applyMiddleware(
