@@ -18,7 +18,7 @@ const styles = theme => ({
     background: theme.palette.primary.main,
   },
   title: {
-    color: theme.palette.secondary.main
+    color: "#ffffff"
   }
 });
 
