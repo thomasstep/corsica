@@ -1,12 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators, compose } from "redux";
 import { Grid, Row, Col } from "react-bootstrap";
-import { AppBar, TextField, RaisedButton } from "@material-ui/core"; //   /AppBar
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import * as movieActions from "./movie-browser.actions";
 import * as movieHelpers from "./movie-browser.helpers";
 import MovieList from "./movie-list/movie-list.component";
 import * as scrollHelpers from "../common/scroll.helpers";
 import MovieModal from "./movie-modal/movie-modal.container";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+  title: {
+    color: "#ffffff"
+  }
+});
 
 class MovieBrowser extends React.Component {
   constructor(props) {
@@ -24,7 +34,7 @@ class MovieBrowser extends React.Component {
 
   componentDidMount() {
     window.onscroll = this.handleScroll;
-    this.props.getTopMovies(this.state.currentPage);
+    this.props.actions.getTopMovies(this.state.currentPage);
   }
 
   componentWillUnmount() {
@@ -37,7 +47,7 @@ class MovieBrowser extends React.Component {
       let percentageScrolled = scrollHelpers.getPercentageScrolledDown(window);
       if (percentageScrolled > 0.8) {
         const nextPage = this.state.currentPage + 1;
-        this.props.getTopMovies(nextPage);
+        this.props.actions.getTopMovies(nextPage);
         this.setState({ currentPage: nextPage });
       }
     }
@@ -45,11 +55,18 @@ class MovieBrowser extends React.Component {
 
   render() {
     const { topMovies } = this.props;
+    const { classes } = this.props;
     const movies = movieHelpers.getMoviesList(topMovies.response);
 
     return (
       <div>
-        <AppBar title="Movie Browser" />
+        <AppBar position="static">
+          <Toolbar>
+            <Typography className={classes.title} variant="title">
+              Movie Browser
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Grid>
           <Row>
             <p>Search will go here</p>
@@ -64,11 +81,28 @@ class MovieBrowser extends React.Component {
   }
 }
 
-export default connect(
-  // Map nodes in our state to a properties of our component
-  state => ({
+function mapStateToProps(state, ownProps) {
+  // Codes come from https://wiki.viasat.com/display/CPWD/Error+Code+Dictionary#ErrorCodeDictionary-301XXISTCAlerts
+  return {
     topMovies: state.movieBrowser.topMovies
-  }),
-  // Map action creators to properties of our component
-  { ...movieActions }
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      {
+        ...movieActions
+      },
+      dispatch
+    )
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(MovieBrowser);

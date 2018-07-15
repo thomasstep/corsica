@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dialog } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import { closeMovieModal } from "./movie-modal.actions";
 import { getMovieDetails } from "../movie-browser.actions";
 import * as movieHelpers from "../movie-browser.helpers";
 import Loader from "../../common/loader.component";
+import { bindActionCreators, compose } from "redux";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   // Can use functions to dynamically build our CSS
@@ -17,7 +20,10 @@ const styles = {
     minHeight: 400,
     color: "white",
     padding: 10
-  })
+  }),
+  button: {
+    color: "#ffffff"
+  }
 };
 
 class MovieModalContainer extends React.Component {
@@ -25,7 +31,7 @@ class MovieModalContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     // If we will receive a new movieId
     if (nextProps.movieId && this.props.movieId !== nextProps.movieId) {
-      nextProps.getMovieDetails(nextProps.movieId);
+      nextProps.actions.getMovieDetails(nextProps.movieId);
     }
   }
 
@@ -34,7 +40,7 @@ class MovieModalContainer extends React.Component {
   }
 
   render() {
-    const { isOpen, closeMovieModal, isLoading } = this.props;
+    const { isOpen, closeMovieModal, isLoading, classes } = this.props;
     const loadingStatus = isLoading ? "loading" : "hide";
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
     console.log(this.props.movie);
@@ -47,7 +53,8 @@ class MovieModalContainer extends React.Component {
         title={null}
         modal={false}
         open={isOpen}
-        onRequestClose={closeMovieModal}
+        onBackdropClick={closeMovieModal}
+        onEscapeKeyDown={closeMovieModal}
       >
         <Loader isLoading={isLoading}>
           <div style={styles.dialogContent(movie.poster_path)}>
@@ -55,17 +62,24 @@ class MovieModalContainer extends React.Component {
             <p>{movie.overview}</p>
             <p>Popularity: {movie.popularity}</p>
             <p>Budget: ${movie.budget}</p>
-            <button type="button" onClick={this.handleClick(movie.download_path)}>Download</button>
+            <Button 
+              onClick={
+                () => { this.handleClick(movie.download_path) }
+              }
+              className={classes.button}
+            >
+            Download
+            </Button>
           </div>
         </Loader>
       </Dialog>
     );
   }
 }
-// "connect" our movie modal to the component store
-export default connect(
-  // Map nodes in our state to a properties of our component
-  state => ({
+
+function mapStateToProps(state, ownProps) {
+  // Codes come from https://wiki.viasat.com/display/CPWD/Error+Code+Dictionary#ErrorCodeDictionary-301XXISTCAlerts
+  return {
     // Using lodash get, recursively check that a property is defined
     // before try to access it - if it is undefined, it will return your default value
     // _.get(object, 'path.to.targets[0].neat.stuff', defaultValue)
@@ -73,7 +87,22 @@ export default connect(
     movieId: _.get(state, "movieBrowser.movieModal.movieId"),
     movie: _.get(state, "movieBrowser.movieDetails.response", {}),
     isLoading: _.get(state, "movieBrowser.movieDetails.isLoading", false)
-  }),
-  // Map an action to a prop, ready to be dispatched
-  { closeMovieModal, getMovieDetails }
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { closeMovieModal, getMovieDetails },
+      dispatch
+    )
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(MovieModalContainer);
