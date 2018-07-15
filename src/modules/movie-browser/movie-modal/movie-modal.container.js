@@ -34,6 +34,9 @@ const styles = theme => ({
     color: "#ffffff",
     "&:hover": {
       background: theme.palette.primary.light
+    },
+    "&:disabled": {
+      color: "#ffffff"
     }
   }
 });
@@ -47,16 +50,24 @@ class MovieModalContainer extends React.Component {
     }
   }
 
-  handleClick(path) {
-    fetch("http://" + HOST_IP + ":3001/download" + path);
+  state = {};
+
+  handleClick(path, id) {
+    fetch("http://" + HOST_IP + ":3001/download" + path)
+    .then(
+      this.setState({
+        [id]: {
+          downloaded: true
+        },
+      })
+    );
   }
 
   render() {
     const { isOpen, isLoading, classes } = this.props;
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
+    var isDownloaded = Object.keys(this.state).indexOf(movie.id === undefined ? -1 : movie.id.toString()) > -1;
 
-    // The button here will need to be updated to the new Material UI Button when
-    // Material UI is updated.
     return (
       <Dialog
         title={null}
@@ -74,11 +85,12 @@ class MovieModalContainer extends React.Component {
             <p>Cost: ${movie.price}</p>
             <Button 
               onClick={
-                () => { this.handleClick(movie.download_path) }
+                () => { this.handleClick(movie.download_path, movie.id) }
               }
               className={classes.button}
+              disabled={isDownloaded}
             >
-            Purchase
+            {isDownloaded ? (this.state[movie.id].downloaded  ? "Downloaded" : "Purchase") : "Purchase"}
             </Button>
           </div>
         </Loader>
@@ -95,7 +107,7 @@ function mapStateToProps(state, ownProps) {
     isOpen: _.get(state, "movieBrowser.movieModal.isOpen", false),
     movieId: _.get(state, "movieBrowser.movieModal.movieId"),
     movie: _.get(state, "movieBrowser.movieDetails.response", {}),
-    isLoading: _.get(state, "movieBrowser.movieDetails.isLoading", false)
+    isLoading: _.get(state, "movieBrowser.movieDetails.isLoading", false),
   };
 }
 
