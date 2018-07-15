@@ -9,6 +9,7 @@ import * as movieHelpers from "../movie-browser.helpers";
 import Loader from "../../common/loader.component";
 import { bindActionCreators, compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
+import { HOST_IP } from "../../../common/constant.js";
 
 const dumbStyle = {
   dialog: {
@@ -47,7 +48,7 @@ class MovieModalContainer extends React.Component {
   }
 
   handleClick(path) {
-    fetch("http://172.24.16.147:3001/download" + path);
+    fetch("http://" + HOST_IP + ":3001/download" + path);
   }
 
   render() {

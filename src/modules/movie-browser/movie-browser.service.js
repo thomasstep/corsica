@@ -1,4 +1,6 @@
-const MOVIE_DB_BASE_URL = "http://172.24.16.147:3001";
+import { HOST_IP } from "../../common/constant.js";
+
+const MOVIE_DB_BASE_URL = "http://" + HOST_IP + ":3001";
 
 const createMovieDbUrl = (relativeUrl, queryParams) => {
   let baseUrl = MOVIE_DB_BASE_URL + relativeUrl;
