@@ -10,7 +10,11 @@ import Loader from "../../common/loader.component";
 import { bindActionCreators, compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
+const dumbStyle = {
+  dialog: {
+    paperWidthMd: "90%",
+    textAlign: "center"
+  },
   // Can use functions to dynamically build our CSS
   dialogContent: backgroundUrl => ({
     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backgroundUrl})`,
@@ -19,15 +23,19 @@ const styles = {
     height: "100%",
     minHeight: 400,
     color: "white",
-    padding: 10
-  }),
-  button: {
-    color: "#ffffff"
-  },
-  dialog: {
-    paperWidthMd: "90%"
-  }
+    padding: 10,
+    textShadow: "-1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000"
+  })
 };
+
+const styles = theme => ({
+  button: {
+    color: "#ffffff",
+    "&:hover": {
+      background: theme.palette.primary.light
+    }
+  }
+});
 
 class MovieModalContainer extends React.Component {
   // Triggered right after a property is changed
@@ -54,10 +62,12 @@ class MovieModalContainer extends React.Component {
         open={isOpen}
         onBackdropClick={this.props.actions.closeMovieModal}
         onEscapeKeyDown={this.props.actions.closeMovieModal}
-        style={styles.dialog}
+        style={dumbStyle.dialog}
+        fullWidth={true}
+        maxWidth={"md"}
       >
         <Loader isLoading={isLoading}>
-          <div style={styles.dialogContent(movie.poster_path)}>
+          <div style={dumbStyle.dialogContent(movie.poster_path)}>
             <h1>{movie.title}</h1>
             <p>{movie.overview}</p>
             <p>Popularity: {movie.popularity}</p>
@@ -78,7 +88,6 @@ class MovieModalContainer extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // Codes come from https://wiki.viasat.com/display/CPWD/Error+Code+Dictionary#ErrorCodeDictionary-301XXISTCAlerts
   return {
     // Using lodash get, recursively check that a property is defined
     // before try to access it - if it is undefined, it will return your default value

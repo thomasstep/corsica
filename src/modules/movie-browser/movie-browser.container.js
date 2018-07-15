@@ -11,10 +11,14 @@ import MovieList from "./movie-list/movie-list.component";
 //import * as scrollHelpers from "../common/scroll.helpers";
 import MovieModal from "./movie-modal/movie-modal.container";
 import { withStyles } from "@material-ui/core/styles";
+import { blueGrey } from "@material-ui/core/colors"
 
 const styles = theme => ({
+  appBar: {
+    background: theme.palette.primary.main,
+  },
   title: {
-    color: "#ffffff"
+    color: theme.palette.secondary.main
   }
 });
 
@@ -59,8 +63,9 @@ class MovieBrowser extends React.Component {
     const movies = movieHelpers.getMoviesList(topMovies.response);
 
     return (
-      <div>
-        <AppBar position="static">
+      // This is what gives the app its theme.palette.main.dark color
+      <div style={{background: blueGrey[700]}}>
+        <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography className={classes.title} variant="title">
               Movie Browser
@@ -68,7 +73,7 @@ class MovieBrowser extends React.Component {
           </Toolbar>
         </AppBar>
         <Grid>
-          <div style={{paddingBottom: "10px"}}></div>
+          <div style={{paddingBottom: "90px"}}></div>
           <Row>
             <MovieList movies={movies} isLoading={topMovies.isLoading} />
           </Row>
