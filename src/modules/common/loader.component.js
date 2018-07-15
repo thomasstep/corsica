@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
   refreshStyle: {
@@ -19,6 +19,7 @@ const LoaderComponent = ({ isLoading, children }) => {
         left={0}
         size={80}
         status={"loading"}
+        id="123"
       />
     );
   }
