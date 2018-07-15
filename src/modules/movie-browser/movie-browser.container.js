@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row } from "react-bootstrap";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -68,9 +68,7 @@ class MovieBrowser extends React.Component {
           </Toolbar>
         </AppBar>
         <Grid>
-          <Row>
-            <p>Search will go here</p>
-          </Row>
+          <div style={{paddingBottom: "10px"}}></div>
           <Row>
             <MovieList movies={movies} isLoading={topMovies.isLoading} />
           </Row>
