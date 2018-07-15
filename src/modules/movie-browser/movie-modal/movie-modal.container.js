@@ -40,7 +40,7 @@ class MovieModalContainer extends React.Component {
   }
 
   render() {
-    const { isOpen, closeMovieModal, isLoading, classes } = this.props;
+    const { isOpen, isLoading, classes } = this.props;
     const loadingStatus = isLoading ? "loading" : "hide";
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
     console.log(this.props.movie);
@@ -53,8 +53,8 @@ class MovieModalContainer extends React.Component {
         title={null}
         modal={false}
         open={isOpen}
-        onBackdropClick={closeMovieModal}
-        onEscapeKeyDown={closeMovieModal}
+        onBackdropClick={this.props.actions.closeMovieModal}
+        onEscapeKeyDown={this.props.actions.closeMovieModal}
       >
         <Loader isLoading={isLoading}>
           <div style={styles.dialogContent(movie.poster_path)}>
