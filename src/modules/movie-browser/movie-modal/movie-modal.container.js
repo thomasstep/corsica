@@ -90,7 +90,7 @@ class MovieModalContainer extends React.Component {
               className={classes.button}
               disabled={isDownloaded}
             >
-            {isDownloaded ? (this.state[movie.id].downloaded  ? "Downloaded" : "Purchase") : "Purchase"}
+            {isDownloaded ? (this.state[movie.id].downloaded  ? "Purchase Complete" : "Purchase") : "Purchase"}
             </Button>
           </div>
         </Loader>
