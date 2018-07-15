@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Dialog } from "material-ui";
+import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import { closeMovieModal } from "./movie-modal.actions";
 import { getMovieDetails } from "../movie-browser.actions";
@@ -29,15 +30,18 @@ class MovieModalContainer extends React.Component {
     }
   }
 
+  handleClick(path) {
+    fetch("http://172.24.16.147:3001/download" + path);
+  }
+
   render() {
     const { isOpen, closeMovieModal, isLoading } = this.props;
     const loadingStatus = isLoading ? "loading" : "hide";
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
-    const genres =
-      movie && movie.genres
-        ? movie.genres.map(genre => genre.name).join(", ")
-        : "";
+    console.log(this.props.movie);
 
+    // The button here will need to be updated to the new Material UI Button when
+    // Material UI is updated.
     return (
       <Dialog
         autoScrollBodyContent={true}
@@ -47,12 +51,12 @@ class MovieModalContainer extends React.Component {
         onRequestClose={closeMovieModal}
       >
         <Loader isLoading={isLoading}>
-          <div style={styles.dialogContent(movie.backdrop_path)}>
+          <div style={styles.dialogContent(movie.poster_path)}>
             <h1>{movie.title}</h1>
-            <h5>{genres}</h5>
             <p>{movie.overview}</p>
             <p>Popularity: {movie.popularity}</p>
             <p>Budget: ${movie.budget}</p>
+            <button type="button" onClick={this.handleClick(movie.download_path)}>Download</button>
           </div>
         </Loader>
       </Dialog>
