@@ -71,15 +71,14 @@ class MovieModalContainer extends React.Component {
           <div style={dumbStyle.dialogContent(movie.poster_path)}>
             <h1>{movie.title}</h1>
             <p>{movie.overview}</p>
-            <p>Popularity: {movie.popularity}</p>
-            <p>Budget: ${movie.budget}</p>
+            <p>Cost: ${movie.price}</p>
             <Button 
               onClick={
                 () => { this.handleClick(movie.download_path) }
               }
               className={classes.button}
             >
-            Download
+            Purchase
             </Button>
           </div>
         </Loader>

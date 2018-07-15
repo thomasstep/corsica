@@ -68,7 +68,7 @@ class MovieBrowser extends React.Component {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography className={classes.title} variant="title">
-              Movie Browser
+              ViaFlicks
             </Typography>
           </Toolbar>
         </AppBar>
