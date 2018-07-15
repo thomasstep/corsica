@@ -45,15 +45,12 @@ class MovieModalContainer extends React.Component {
   render() {
     const { isOpen, isLoading, classes } = this.props;
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
-    console.log(this.props.movie);
 
     // The button here will need to be updated to the new Material UI Button when
     // Material UI is updated.
     return (
       <Dialog
-        autoScrollBodyContent={true}
         title={null}
-        modal={false}
         open={isOpen}
         onBackdropClick={this.props.actions.closeMovieModal}
         onEscapeKeyDown={this.props.actions.closeMovieModal}

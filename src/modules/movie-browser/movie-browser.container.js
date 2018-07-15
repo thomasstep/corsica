@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import * as movieActions from "./movie-browser.actions";
 import * as movieHelpers from "./movie-browser.helpers";
 import MovieList from "./movie-list/movie-list.component";
-import * as scrollHelpers from "../common/scroll.helpers";
+//import * as scrollHelpers from "../common/scroll.helpers";
 import MovieModal from "./movie-modal/movie-modal.container";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -29,7 +29,7 @@ class MovieBrowser extends React.Component {
     // which provides access to MovieBrowser's props
     // Note: You don't have to do this if you call a method
     // directly from a lifecycle method
-    this.handleScroll = this.handleScroll.bind(this);
+    // this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
@@ -41,17 +41,17 @@ class MovieBrowser extends React.Component {
     window.removeEventListener("scroll", this.handleScroll);
   }
 
-  handleScroll() {
-    const { topMovies } = this.props;
-    if (!topMovies.isLoading) {
-      let percentageScrolled = scrollHelpers.getPercentageScrolledDown(window);
-      if (percentageScrolled > 0.8) {
-        const nextPage = this.state.currentPage + 1;
-        this.props.actions.getTopMovies(nextPage);
-        this.setState({ currentPage: nextPage });
-      }
-    }
-  }
+  // handleScroll() {
+  //   const { topMovies } = this.props;
+  //   if (!topMovies.isLoading) {
+  //     let percentageScrolled = scrollHelpers.getPercentageScrolledDown(window);
+  //     if (percentageScrolled > 0.8) {
+  //       const nextPage = this.state.currentPage + 1;
+  //       this.props.actions.getTopMovies(nextPage);
+  //       this.setState({ currentPage: nextPage });
+  //     }
+  //   }
+  // }
 
   render() {
     const { topMovies } = this.props;
