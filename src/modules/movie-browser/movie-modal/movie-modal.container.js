@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Dialog } from "material-ui";
-import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import { closeMovieModal } from "./movie-modal.actions";
 import { getMovieDetails } from "../movie-browser.actions";
