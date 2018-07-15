@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const MOVIE_DB_BASE_URL = "http://172.24.16.147:3001";
 
 const createMovieDbUrl = (relativeUrl, queryParams) => {
