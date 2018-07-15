@@ -23,6 +23,9 @@ const styles = {
   }),
   button: {
     color: "#ffffff"
+  },
+  dialog: {
+    paperWidthMd: "90%"
   }
 };
 
@@ -41,7 +44,6 @@ class MovieModalContainer extends React.Component {
 
   render() {
     const { isOpen, isLoading, classes } = this.props;
-    const loadingStatus = isLoading ? "loading" : "hide";
     const movie = movieHelpers.updateMoviePictureUrls(this.props.movie);
     console.log(this.props.movie);
 
@@ -55,6 +57,7 @@ class MovieModalContainer extends React.Component {
         open={isOpen}
         onBackdropClick={this.props.actions.closeMovieModal}
         onEscapeKeyDown={this.props.actions.closeMovieModal}
+        style={styles.dialog}
       >
         <Loader isLoading={isLoading}>
           <div style={styles.dialogContent(movie.poster_path)}>

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { createReducer, createAsyncReducer } from "../common/redux.helpers";
+import { createAsyncReducer } from "../common/redux.helpers";
 import { keys as movieActionKeys } from "./movie-browser.actions";
 import movieModalReducer from "./movie-modal/movie-modal.reducer";
 

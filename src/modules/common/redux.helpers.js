@@ -57,7 +57,6 @@ export const createAsyncReducer = (
   actionHandlerKeyFuncs = {},
   initialState = initialAsyncState
 ) => {
-  const startReducerOverrideFn = actionHandlerKeyFuncs[`${actionType}_START`];
   const startReducerFn = (state, action) => ({
     ...state,
     isLoading: true,
@@ -72,7 +71,6 @@ export const createAsyncReducer = (
         isLoading: false,
         response: action.response
       });
-  const errorReducerOverrideFn = actionHandlerKeyFuncs[`${actionType}_ERROR`];
   const errorReducerFn = (state, action) => ({
     ...state,
     isLoading: false,
